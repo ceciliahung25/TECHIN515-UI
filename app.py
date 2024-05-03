@@ -6,6 +6,7 @@ import io
 from PIL import Image
 import google.ai.generativelanguage as glm
 import re
+import time
 
 load_dotenv()
 
@@ -32,6 +33,7 @@ animal_emojis = {
     "tiger": "🐅",
     "unicorn": "🦄",
     "dragon": "🐉",
+    "swan": "🦢",
     # Add more as needed
 }
 
@@ -60,9 +62,16 @@ def main():
     st.set_page_config(page_title="Cloud Riddle Game", layout="centered", initial_sidebar_state="collapsed")
 
     if 'page' not in st.session_state:
-        st.session_state['page'] = "Image Upload"
+        st.session_state['page'] = "Landing Page"
+        st.toast("A new cloud is available ☁️")
+        time.sleep(4)  # Keeping the toast for 4 seconds
 
-    if st.session_state['page'] == "Image Upload":
+    if st.session_state['page'] == "Landing Page":
+        if st.button("👀 Check my new cloud ☁️"):
+            st.session_state['page'] = "Image Upload"
+            st.experimental_rerun()
+
+    elif st.session_state['page'] == "Image Upload":
         uploaded_image = upload_image()
         if uploaded_image is not None:
             if st.button("Confirm and Reveal the Riddle"):
